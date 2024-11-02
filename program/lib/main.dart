@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Uygulama());
 }
 
-// Uygulamanın temel widget'ı olan MyApp sınıfı
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// Ana uygulama widget'ı
+class Uygulama extends StatelessWidget {
+  const Uygulama({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,33 +15,34 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const BMICalculator(),
+      home: const BMIHesaplayici(),
     );
   }
 }
 
-// BMI hesaplayıcı ekranını oluşturan kısım
-class BMICalculator extends StatefulWidget {
-  const BMICalculator({super.key});
+// BMI hesaplayıcı ana ekran widget'ı
+class BMIHesaplayici extends StatefulWidget {
+  const BMIHesaplayici({super.key});
 
   @override
-  _BMICalculatorState createState() => _BMICalculatorState();
+  _BMIHesaplayiciDurumu createState() => _BMIHesaplayiciDurumu();
 }
 
-// BMI hesaplayıcı ekranının başlangıç hali
-class _BMICalculatorState extends State<BMICalculator> {
-  double height = 195; // Kullanıcının boyu
-  double weight = 83;  // Kullanıcının ağırlığı
-  int age = 22;        // Kullanıcının yaşı
-  String gender = "Erkek"; // Kullanıcının cinsiyeti
+// BMI hesaplayıcı başlangıç durumu
+class _BMIHesaplayiciDurumu extends State<BMIHesaplayici> {
+  // Kullanıcı boy, ağırlık ve yaş verileri
+  double boy = 195;
+  double agirlik = 83;
+  int yas = 22;
+  String cinsiyet = "Erkek";
 
   // BMI hesaplama fonksiyonu
-  double calculateBMI() {
-    return weight / ((height / 100) * (height / 100));
+  double hesaplaBMI() {
+    return agirlik / ((boy / 100) * (boy / 100));
   }
 
-  // BMI kategorisini belirleme
-  String getBMICategory(double bmi) {
+  // BMI değerine göre kategori belirleme
+  String getBMIKategori(double bmi) {
     if (bmi < 18.5) {
       return 'Zayıf';
     } else if (bmi < 24.9) {
@@ -50,22 +51,6 @@ class _BMICalculatorState extends State<BMICalculator> {
       return 'Fazla Kilolu';
     } else {
       return 'Obez';
-    }
-  }
-
-  // BMI açıklamasını döndüren kısım
-  String getBMIDescription(String category) {
-    switch (category) {
-      case 'Zayıf':
-        return 'Düşük bir vücut ağırlığınız var. Kilo almalısınız!.';
-      case 'Normal':
-        return 'Normal bir vücut ağırlığınız var. Aferin!';
-      case 'Fazla Kilolu':
-        return 'Fazla kilolu bir vücut ağırlığınız var. Dikkat edin!';
-      case 'Obez':
-        return 'Çok aşırı bir vücut ağırlığınız var. Obezsiniz.';
-      default:
-        return '';
     }
   }
 
@@ -78,64 +63,74 @@ class _BMICalculatorState extends State<BMICalculator> {
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF0A0E21), // Koyu mavi arka plan
+        backgroundColor: const Color(0xFF0A0E21),
       ),
-      backgroundColor: const Color(0xFF0A0E21), // Koyu mavi arka plan
+      backgroundColor: const Color(0xFF0A0E21),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Cinsiyet seçimi
+          // Cinsiyet seçim widget'ı
           Expanded(
             child: Row(
               children: [
+                // Erkek seçimi için
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        gender = "Erkek"; // Erkek seçildiğinde cinsiyet değişimi
+                        cinsiyet = "Erkek";
                       });
                     },
                     child: Container(
-                      margin: const EdgeInsets.all(15.0),
+                      margin: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: gender == "Erkek" ? Colors.blueGrey[800] : Colors.grey[800], // Seçili cinsiyete göre arka plan rengi
+                        color: cinsiyet == "Erkek" ? Colors.blueAccent : Color(0xFF121B24),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.male, size: 80.0, color: Colors.white),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: 10.0),
                           Text(
                             'Erkek',
-                            style: TextStyle(color: Colors.white, fontSize: 18.0),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
+                // Kadın seçimi için
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        gender = "Kadın"; // Kadın seçildiğinde cinsiyet değişimi
+                        cinsiyet = "Kadın";
                       });
                     },
                     child: Container(
-                      margin: const EdgeInsets.all(15.0),
+                      margin: const EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        color: gender == "Kadın" ? Colors.blueGrey[800] : Colors.grey[800], // Seçili cinsiyete göre arka plan rengi
+                        color: cinsiyet == "Kadın" ? Colors.pinkAccent : Color(0xFF121B24),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.female, size: 80.0, color: Colors.white),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: 10.0),
                           Text(
                             'Kadın',
-                            style: TextStyle(color: Colors.white, fontSize: 18.0),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -145,46 +140,46 @@ class _BMICalculatorState extends State<BMICalculator> {
               ],
             ),
           ),
-
-          // Boy ölçme kısmı
+          // Boy seçimi için
           Expanded(
             child: Container(
               margin: const EdgeInsets.all(15.0),
               decoration: BoxDecoration(
-                color: Colors.grey[800], // Koyu gri arka plan
+                color: Color(0xFF121B24),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Boy',
+                    'BOY',
                     style: TextStyle(color: Colors.white, fontSize: 18.0),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        height.toStringAsFixed(0),
+                        boy.toStringAsFixed(0),
                         style: const TextStyle(color: Colors.white, fontSize: 50.0),
                       ),
+                      const SizedBox(width: 5.0),
                       const Text(
-                        ' cm',
-                        style: TextStyle(color: Colors.white, fontSize: 18.0),
+                        'cm',
+                        style: TextStyle(color: Colors.white, fontSize: 14.0), // Küçük punto
                       ),
                     ],
                   ),
                   Slider(
-                    value: height,
+                    value: boy,
                     min: 100.0,
-                    max: 250.0,
-                    activeColor: Colors.white, // Slider çubuğunun aktif rengi
-                    thumbColor: Colors.redAccent, // Slider topunun rengi
+                    max: 220.0,
+                    activeColor: Colors.white,
+                    inactiveColor: Colors.white24,
+                    thumbColor: Colors.redAccent,
                     onChanged: (double newValue) {
                       setState(() {
-                        height = newValue; // Boy değeri değişimi
+                        boy = newValue;
                       });
                     },
                   ),
@@ -192,173 +187,260 @@ class _BMICalculatorState extends State<BMICalculator> {
               ),
             ),
           ),
-
-          // Ağırlık ölçme kısmı
+          // Ağırlık ve Yaş seçimi için iki genişletilmiş widget
           Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(15.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[800], // Koyu gri arka plan
-                borderRadius: BorderRadius.circular(10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF121B24),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'KİLO',
+                          style: TextStyle(color: Colors.white, fontSize: 18.0),
+                        ),
+                        Text(
+                          agirlik.toStringAsFixed(0),
+                          style: const TextStyle(color: Colors.white, fontSize: 40.0),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  if (agirlik > 1) agirlik--;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  agirlik++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF121B24),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'YAŞ',
+                          style: TextStyle(color: Colors.white, fontSize: 18.0),
+                        ),
+                        Text(
+                          yas.toString(),
+                          style: const TextStyle(color: Colors.white, fontSize: 40.0),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.remove, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  if (yas > 1) yas--;
+                                });
+                              },
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.add, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  yas++;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Hesapla butonu
+          Container(
+            width: double.infinity,
+            height: 60.0,
+            margin: const EdgeInsets.only(top: 10.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0.0),
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Ağırlık',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
+              onPressed: () {
+                double bmi = hesaplaBMI();
+                String kategori = getBMIKategori(bmi);
+                String geriBildirim = getBMIDescript(kategori);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BMISonucEkrani(
+                      bmi: bmi,
+                      kategori: kategori,
+                      geriBildirim: geriBildirim,
+                    ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        weight.toStringAsFixed(0),
-                        style: const TextStyle(color: Colors.white, fontSize: 50.0),
-                      ),
-                      const Text(
-                        ' kg',
-                        style: TextStyle(color: Colors.white, fontSize: 18.0),
-                      ),
-                    ],
-                  ),
-                  Slider(
-                    value: weight,
-                    min: 30.0,
-                    max: 150.0,
-                    activeColor: Colors.white, // Slider çubuğunun rengi
-                    thumbColor: Colors.redAccent, // Slider topunun rengi
-                    onChanged: (double newValue) {
-                      setState(() {
-                        weight = newValue; // Ağırlık değeri değişimi
-                      });
-                    },
-                  ),
-                ],
+                );
+              },
+              child: const Text(
+                'HESAPLA',
+                style: TextStyle(color: Colors.white, fontSize: 24.0),
               ),
             ),
           ),
         ],
       ),
-
-      // Hesapla butonu
-      bottomNavigationBar: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFF2A6D), // Butonun rengi
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.zero,
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
-          ),
-          onPressed: () {
-            double bmi = calculateBMI(); // BMI hesaplama
-            String category = getBMICategory(bmi); // BMI kategorisi alma
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => BMIResultScreen(
-                  bmi: bmi,
-                  category: category,
-                  description: getBMIDescription(category), // BMI açıklaması alma
-                ),
-              ),
-            );
-          },
-          child: const Text(
-            'Hesapla',
-            style: TextStyle(color: Colors.white, fontSize: 40.0),
-          ),
-        ),
-      ),
     );
   }
 }
 
-// BMI sonuç ekranı
-class BMIResultScreen extends StatelessWidget {
-  final double bmi; // BMI değeri
-  final String category; // BMI kategorisi
-  final String description; // BMI açıklaması
+class BMISonucEkrani extends StatelessWidget {
+  final double bmi;
+  final String kategori;
+  final String geriBildirim;
 
-  const BMIResultScreen({
-    super.key,
+  // Constructor
+  const BMISonucEkrani({
     required this.bmi,
-    required this.category,
-    required this.description,
+    required this.kategori,
+    required this.geriBildirim,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BMI Hesaplayıcı'),
-        backgroundColor: const Color(0xFF0A0E21), // Koyu mavi arka plan
+        title: const Text(
+          'BMI HESAPLAYICI',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF0A0E21),
       ),
-      backgroundColor: const Color(0xFF0A0E21), // Koyu mavi arka plan
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
+      backgroundColor: const Color(0xFF0A0E21),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // BMI sonucu başlığı
+          const Padding(
+            padding: EdgeInsets.only(top: 20.0),
+            child: Text(
               'BMI Değeri',
-              style: TextStyle(color: Colors.white, fontSize: 40.0),
-            ),
-            const SizedBox(height: 20.0),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Colors.grey[800], // Koyu gri arka plan
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    category,
-                    style: const TextStyle(color: Colors.white, fontSize: 24.0),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    bmi.toStringAsFixed(1),
-                    style: const TextStyle(color: Colors.white, fontSize: 48.0),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    description,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 24.0),
-                  ),
-                ],
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 62.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 40.0),
-          ],
-        ),
-      ),
+          ),
+          const SizedBox(height: 100.0),
 
-      //Yeniden Hesapla butonu
-      bottomNavigationBar: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFF2A6D),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.zero,
+          // BMI kategori bilgisi
+          Text(
+            kategori,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.greenAccent,
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
             ),
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
           ),
-          onPressed: () {
-            Navigator.pop(context); // Önceki ekrana dönme
-          },
-          child: const Text(
-            'Yeniden Hesapla',
-            style: TextStyle(color: Colors.white, fontSize: 40.0),
+          const SizedBox(height: 100.0),
+
+          // Hesaplanan BMI değeri
+          Text(
+            bmi.toStringAsFixed(1),
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 100.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
+          const SizedBox(height: 100.0),
+
+          // Geri bildirim mesajı
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Text(
+              geriBildirim,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 24.0,
+              ),
+            ),
+          ),
+          const Spacer(),
+
+          // Yeniden Hesapla butonu
+          Container(
+            width: double.infinity,
+            height: 60.0,
+            margin: const EdgeInsets.only(bottom: 0.0), // Alt boşluk
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pinkAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0.0),
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'YENİDEN HESAPLA',
+                style: TextStyle(color: Colors.white, fontSize: 24.0),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+}
+
+// BMI kategorisine göre açıklama döndüren fonksiyon
+String getBMIDescript(String kategori) {
+  switch (kategori) {
+    case 'Zayıf':
+      return 'Düşük bir vücut ağırlığınız var. Kilo almalısınız!.';
+    case 'Normal':
+      return 'Normal bir vücut ağırlığınız var. Aferin!';
+    case 'Fazla Kilolu':
+      return 'Fazla kilolu bir vücut ağırlığınız var. Dikkat edin!';
+    case 'Obez':
+      return 'Çok aşırı bir vücut ağırlığınız var. Obezsiniz.';
+    default:
+      return 'Bilinmeyen bir kategori.';
   }
 }
